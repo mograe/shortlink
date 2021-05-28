@@ -63,7 +63,7 @@ def short():
     lai = int(la)
     if url and user_id and la and lai<3:
         dbsl.shortlink(user_id,url,la)
-        message = {"message":"Ссылка была сокращена успешно","short_link":f"http://127.0.0.1:5000/{dbsl.ret_sl(user_id,url)}"}
+        message = {"message":"Ссылка была сокращена успешно","short_link":f"https://shortlink-mtl.herokuapp.com/{dbsl.ret_sl(user_id,url)}"}
         return jsonify(message)
     elif not url:
         message = {"message":"Не задан url для сокращения"}
@@ -91,11 +91,12 @@ def redir(shortlink):
             db = get_db()
             dba = FDataBase(db)
             current_user = get_jwt_identity()
+            print(current_user)
             if current_user:
                 return redirect(dbsl.ret_fulllink(shortlink),code=302)
             else:
                 message = {"message":"Данная ссылка доступна только авторизованным пользователям"}
-
+                return jsonify(message)
         else:
             db = get_db()
             dba = FDataBase(db)
@@ -128,7 +129,7 @@ def name():
             return jsonify(message)
         else:
             dbsl.add_name(user_id,url,name,la)
-            message = {"message":"Ссылка была сокращена успешно","short_link":f"http://127.0.0.1:5000/{name}"}
+            message = {"message":"Ссылка была сокращена успешно","short_link":f"https://shortlink-mtl.herokuapp.com/{name}"}
             return jsonify(message)
     elif not name:
         message = {"message":"Нет псевдонима для url"}
@@ -160,7 +161,7 @@ def list():
         if len(dbsl.return_links(user_id))==0:
             return jsonify({"message":"У вас нет сокращённых ссылок"})
         for i in range(len(dbsl.return_links(user_id))):
-            message.update({f"Link {i+1}":{"Long URL":dbsl.return_links(user_id)[i][1], "Short Link":f"http://127.0.0.1:5000/{dbsl.return_links(user_id)[i][0]}","Level of Access":dbsl.get_la(dbsl.return_links(user_id)[i][0])}})
+            message.update({f"Link {i+1}":{"Long URL":dbsl.return_links(user_id)[i][1], "Short Link":f"https://shortlink-mtl.herokuapp.com/{dbsl.return_links(user_id)[i][0]}","Level of Access":dbsl.get_la(dbsl.return_links(user_id)[i][0])}})
         return jsonify(message)
 
 
@@ -190,7 +191,7 @@ def ch_link(number_link):
             message = {"message":"Данный псевдоним занят"}
             return jsonify(message)
         dbsl.rename_link(name,dbsl.get_slink(user_id,number_link),user_id)
-        return jsonify({"message":"Ссылка переименовавна успешно","link":f"http://127.0.0.1:5000/{name}"})
+        return jsonify({"message":"Ссылка переименовавна успешно","link":f"https://shortlink-mtl.herokuapp.com/{name}"})
     elif request.method == "UNLINK":
         db = get_db()
         dba = FDataBase(db)
@@ -204,7 +205,7 @@ def ch_link(number_link):
         namelink = dbsl.get_slink(user_id,number_link)
         hashlink = dbsl.hashlink(user_id,dbsl.ret_fulllink(namelink))
         dbsl.rename_link(hashlink,namelink,user_id)
-        return jsonify({"message":"Псевдоним был удалён успешно","link":f"http://127.0.0.1:5000/{hashlink}"})
+        return jsonify({"message":"Псевдоним был удалён успешно","link":f"https://shortlink-mtl.herokuapp.com/{hashlink}"})
     elif request.method == "DELETE":
         db = get_db()
         dba = FDataBase(db)
