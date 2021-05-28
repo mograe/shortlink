@@ -91,7 +91,11 @@ def redir(shortlink):
             db = get_db()
             dba = FDataBase(db)
             current_user = get_jwt_identity()
-            return redirect(dbsl.ret_fulllink(shortlink),code=302)
+            if current_user:
+                return redirect(dbsl.ret_fulllink(shortlink),code=302)
+            else:
+                message = {"message":"Данная ссылка доступна только авторизованным пользователям"}
+
         else:
             db = get_db()
             dba = FDataBase(db)
