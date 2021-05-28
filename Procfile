@@ -1,1 +1,1 @@
-web: gunicorn shortlink:app
+web: gunicorn --bind 0.0.0.0:$PORT shortlink:app
