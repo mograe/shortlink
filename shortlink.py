@@ -81,7 +81,7 @@ def short():
 
 
 @app.route('/<shortlink>')
-@jwt_required()
+@jwt_required(optional=True)
 def redir(shortlink):
     if(dbsl.check_name(shortlink)):
         print(dbsl.get_la(shortlink))
