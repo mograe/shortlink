@@ -1,1 +1,1 @@
-web: gunicorn app:shortlink
+web: gunicorn shortlink:app
