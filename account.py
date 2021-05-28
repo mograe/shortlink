@@ -70,8 +70,11 @@ def register():
             res = dbase.addUser(request.json.get('name'), request.json.get('email'), hash)
             if res:
                 return jsonify({"message":"Вы успешно зарегестрировались"})
+            elif dbase.checkUser(request.json.get('email')):
+                return jsonify({"message":"Введёный Вами email занят"})
+
             else:
-                return jsonify({"message":"У вас какие-то проблемы. попробуйте ещё раз"})
+                return jsonify({"message":"У Вас какие-то проблемы. попробуйте ещё раз"})
 
         elif len(request.json.get('name')) <= 3:
             return jsonify({"message":"Слишком короткое имя"})
