@@ -78,4 +78,12 @@ class FDataBase:
         except sqlite3.Error as e:
             print('Error'+str(e))
             return None
-        
+    
+    def getUserID(self,email):
+        try:
+            self.__cur.execute(f'SELECT id as "id" FROM users WHERE email LIKE "{email}"')
+            res = self.__cur.fetchone()
+            return res["id"]
+        except sqlite3.Error as e:
+            print('Error'+str(e))
+            return None

@@ -83,11 +83,3 @@ def register():
             return jsonify({"message":"Пароли не совпадают"})
 
     return jsonify({"message":"Что-то пошло не так"})
-
-
-
-
-
-
-if __name__ == '__main__':
-    app.run()
