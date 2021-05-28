@@ -21,6 +21,7 @@ DATABASE = 'db.db'
 DEBUG = True
 SECRET_KEY = 'euorhgudfv%$%hnjdfv8j6y4723hr'
 dba = None
+app.config['PROPAGATE_EXCEPTIONS'] = True
 
 def connect_db():
     connect = sqlite3.connect(DATABASE)
