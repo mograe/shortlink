@@ -101,3 +101,15 @@ def ch_la(shortlink,user_id,la):
     sql_cur = db.cursor()
     sql_cur.execute(f"UPDATE shortlink SET LA='{la}' WHERE hashlink='{shortlink}' and user_id = {user_id}")
     db.commit()
+
+def ink_counter(shortlink):
+    db = sqlite3.connect("db.db")
+    sql_cur = db.cursor()
+    sql_cur.execute(f"UPDATE shortlink SET counter=counter+1 where hashlink='{shortlink}'")
+    db.commit()
+
+def get_counter(shortlink):
+    db = sqlite3.connect("db.db")
+    sql_cur = db.cursor()
+    sql_cur.execute(f"SELECT counter from shortlink WHERE hashlink='{shortlink}'")
+    return sql_cur.fetchall()[0][0]

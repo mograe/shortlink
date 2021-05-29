@@ -84,7 +84,9 @@ def short():
 @jwt_required(optional=True)
 def redir(shortlink):
     if(dbsl.check_name(shortlink)):
+
         print(dbsl.get_la(shortlink))
+        dbsl.ink_counter(shortlink)
         if(dbsl.get_la(shortlink)==0):
             return redirect(dbsl.ret_fulllink(shortlink),code=302)
         elif(dbsl.get_la(shortlink)==1):
@@ -161,7 +163,7 @@ def list():
         if len(dbsl.return_links(user_id))==0:
             return jsonify({"message":"У вас нет сокращённых ссылок"})
         for i in range(len(dbsl.return_links(user_id))):
-            message.update({f"Link {i+1}":{"Long URL":dbsl.return_links(user_id)[i][1], "Short Link":f"https://shortlink-mtl.herokuapp.com/{dbsl.return_links(user_id)[i][0]}","Level of Access":dbsl.get_la(dbsl.return_links(user_id)[i][0])}})
+            message.update({f"Link {i+1}":{"Long URL":dbsl.return_links(user_id)[i][1], "Short Link":f"https://shortlink-mtl.herokuapp.com/{dbsl.return_links(user_id)[i][0]}","Level of Access":dbsl.get_la(dbsl.return_links(user_id)[i][0]),"Counter":dbsl.get_counter(dbsl.return_links(user_id)[i][0])}})
         return jsonify(message)
 
 
